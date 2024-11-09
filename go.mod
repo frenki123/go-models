@@ -1,4 +1,4 @@
-module models
+module github.com/frenki123/go-models
 
 go 1.23.2
 
