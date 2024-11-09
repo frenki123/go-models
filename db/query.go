@@ -2,7 +2,6 @@ package db
 
 import (
 	"fmt"
-	"math"
 	"reflect"
 	"strings"
 	"time"
@@ -224,15 +223,14 @@ type num interface {
 	int | float32 | float64
 }
 
-func (c *condition[numericDataType]) Gt(value any) *condition[numericDataType] {
+func (c *condition[int]) Gt(value int) *condition[int] {
 	c.operator = opGT
-	v, ok := value.(int)
-	c.value = fmt.Sprintf("%d", value)
+	c.value = fmt.Sprintf("%v", value)
 	return c
 }
 
 func (c *condition[string]) Like(value string) *condition[string] {
 	c.operator = opLIKE
-	c.value = fmt.Sprintf("'%s'", value)
+	c.value = fmt.Sprintf("'%v'", value)
 	return c
 }
