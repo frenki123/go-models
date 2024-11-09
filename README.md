@@ -11,7 +11,6 @@ type User struct {
 	Email    string
 }
 ```
-
 Next we need to define schema for this struct:
 ```go
 func (u User) Schema() db.Table {
@@ -21,13 +20,29 @@ func (u User) Schema() db.Table {
 	)
 }
 ```
-To start to use this table we need to register them in main function:
+If *db* is not imported from github.com/frenki123/go-models/db, import it manually
 ```go
+import "github.com/frenki123/go-models/db"
+
+```
+To start to use this table we need to register them in main function. Also we need to import the driver which we need. Here we will use go-sqlite3. Go-models is using .env file to read DB config.
+```go
+import (
+	"github.com/frenki123/go-models/db"
+	_ "github.com/mattn/go-sqlite3"
+)
+....
 func main() {
 	db.MustRegister(User{})
 }
 ```
-then we can save some users in db
+Create `.env` file with following data:
+```.env
+DATABASE = "sqlite3"
+DBCONNSTRING = "example.db"
+```
+To create database we can run `go run .`.
+Then we can save some users in db. If you created db file, delete it before.
 ```go
 user1 := User{Username: "user1", Email: "email"}
 user2 := User{Username: "username", Email: "email"}
@@ -47,6 +62,12 @@ fmt.Println("User is", user)
 Full code
 ```go
 package main
+
+import (
+	"fmt"
+	"github.com/frenki123/go-models/db"
+	_ "github.com/mattn/go-sqlite3"
+)
 
 type User struct {
 	Id       int
